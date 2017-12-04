@@ -1,0 +1,48 @@
+Data Wrangling for Project 1:
+
+1. Import all five files into Python
+  
+2. Apply formatting to the date column for three of the files by converting int64 with format YYYYMMDD. Utilized the pd.to_datetime
+process with format='%Y%m%d'
+  
+3. Apply formatting to the date column for the other two files by converting object that with format mm/dd/yyyy. Utilized the
+pd.to_datetime process with format='%m/%d/%Y'
+
+4. One of the columns contained two rows for some dates for the same "Default Channel Grouping" because it was listed with an "s" at the 
+end and without the "s". i.e. "Affiliates" and "Affiliates". Utilizes .replace to replace the less frequently occuring ("Affiliates") to
+the version without the "s".
+
+5. Utilized .groupby and .sum to groupby 'Date' and 'Default Channel Grouping' to then group by and sum the days that now had two listings
+for "Affiliate".
+
+6. Three of the DataFrames had multiple rows for a single date. Utilized .pivot with the index='Date' on the appropriate column (varied
+depending on the file) to pivot the file to create a single row for each date.
+
+7. The Daily Plan file included a column that included text if the client sent an email that day. Created a new column 'Email Day'. Placed
+a "1" in the column if the 'TY Email' column was filled and an "0" if the 'TY Email' column was empty. This marked a 1 if the client sent
+at least 1 marketing email on that date.
+
+8a. The Daily Plan file included a column with text that indicated if there was promotion or marketing event on that day. First I created a
+new column 'Promo Type' and pulled in the keyword from the 'TY Event' column that would indicate to me if there was a significant marketing
+event on that day. This was somewhat subjective to my own knowledge of the client's promo calendar and their keyword(s) for indicating the
+type of promotion. If any of the below keywords were included within the 'TY Event' column then that keyword would be pulled into the new
+column 'Promo Type'.
+(sale on sale|Sale on Sale|SOS|sos|markdowns|Markdowns|SS|Surprise Sale|surprise sale|ss|GWP|DOTD|DOD|New Arrivals|new arrivals|Friends & Family|friends & family|SWP|Employee Appreciation|employee appreciation)
+
+8b. Utilizing the content of the new column 'Promo Type'. I created nine additional columns, one for each type of promotion:
+  - SS (Surprise Sale)
+  - MD (Markdowns)
+  - FF (Friends & Family Sale)
+  - GWP (Gift With Purchase)
+  - DOTD (Deal of the Day)
+  - NA (New Arrivals)
+  - SOS (Sale on Sale)
+  - SWP (Sale with Purchase)
+  - EA (Employee Appreciation Event)
+  
+8c. I filled each of these nine new columns with either a 1 or 0 depending upon the content of the 'Promo Type' column created in step 8a.
+For example, if the day was a Surprise Sale event then the SS column contains a 1, otherwise a 0.
+
+9. I then joined all five files together to make a single DataFrame, utilizing 'Date' as the column to join on.
+
+  
